@@ -15,12 +15,33 @@ jobs:
           echo "Issue number: ${{ github.event.issue.number }}"
           echo "Issue date: ${{ github.event.issue.updated_at }}"
 
-# You also can print the whole github context to the logs to view more details.
+      # You also can print the whole github context to the logs to view more details.
       - name: View the github context
         run: echo "$GITHUB_CONTEXT"
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-          
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: execute Python script
+        run: |
+          python add-to-db.py $id $liked-url $liked-date
+        env:
+          id: ${{ github.event.issue.number }}
+          liked-url: ${{ github.event.issue.title }}
+          liked-date: ${{ github.event.issue.updated_at }}
+              
       - name: Close Issue
         uses: peter-evans/close-issue@v1
         with:
