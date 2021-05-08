@@ -12,9 +12,17 @@ jobs:
         run: |
           echo "Issue title: ${{ github.event.issue.title }}"
           echo "Issue body: ${{ github.event.issue.body }}"
+          echo "Issue number: ${{ github.event.issue.number }}"
+          echo "Issue date: ${{ github.event.issue.updated_at }}"
 
 # You also can print the whole github context to the logs to view more details.
       - name: View the github context
         run: echo "$GITHUB_CONTEXT"
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
+          
+      - name: Close Issue
+        uses: peter-evans/close-issue@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment: Auto-closing issue
