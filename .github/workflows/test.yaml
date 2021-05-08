@@ -3,6 +3,9 @@ name: test issue to like
 on: 
   issues:
     types: ['opened']
+    
+concurrency: 
+  group: ${{ github.head_ref }}
 
 jobs:
   job1:
