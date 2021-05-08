@@ -51,6 +51,7 @@ jobs:
           git add general-likes.db
           timestamp=$(date -u)
           git commit -m "auto: Latest data: ${timestamp}" || exit 0
+          git pull
           git push
 
       - name: Close Issue
