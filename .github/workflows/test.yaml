@@ -36,17 +36,17 @@ jobs:
 
       - name: execute Python script
         run: |
-          python add-to-db.py $id $liked-url $liked-date
+          python add-to-db.py $id $url $date
         env:
           id: ${{ github.event.issue.number }}
-          liked-url: ${{ github.event.issue.title }}
-          liked-date: ${{ github.event.issue.updated_at }}
+          url: ${{ github.event.issue.title }}
+          date: ${{ github.event.issue.updated_at }}
           
       - name: Commit and push if it changed
         run: |-
           git config user.name "Automated"
           git config user.email "actions@users.noreply.github.com"
-          git add pocket.db
+          git add general-likes.db
           timestamp=$(date -u)
           git commit -m "auto: Latest data: ${timestamp}" || exit 0
           git push
