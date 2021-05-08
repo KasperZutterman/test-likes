@@ -5,7 +5,7 @@ import sys
 
 db = Database(sqlite3.connect("./general-likes.db"))
 
-likes = db["general-likes"]
+likes = db["general_likes"]
 likes.insert({
     "id": sys.argv[1],
     "liked_url": sys.argv[2],
