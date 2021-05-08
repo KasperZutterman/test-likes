@@ -41,7 +41,16 @@ jobs:
           id: ${{ github.event.issue.number }}
           liked-url: ${{ github.event.issue.title }}
           liked-date: ${{ github.event.issue.updated_at }}
-              
+          
+      - name: Commit and push if it changed
+        run: |-
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add pocket.db
+          timestamp=$(date -u)
+          git commit -m "auto: Latest data: ${timestamp}" || exit 0
+          git push
+
       - name: Close Issue
         uses: peter-evans/close-issue@v1
         with:
